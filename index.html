@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade Hub - Enlace Directo HTML5</title>
+    <title>Arcade Hub - Categoría Acción</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,40 +17,40 @@
             overflow-x: hidden;
         }
 
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { height: 4px; width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        .category-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .category-pill.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.5);
+            border-color: #60a5fa;
+        }
+
+        .game-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3);
+        }
+
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            gap: 20px;
             padding: 20px;
         }
 
-        .card {
-            background: #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #334155;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
-        }
-
-        .card img {
-            width: 100%;
-            aspect-ratio: 4/3;
-            object-fit: cover;
-        }
-
-        .card-info {
-            padding: 10px;
-            text-align: center;
-        }
-
-        /* OVERLAY DE JUEGO DIRECTO HTML5 */
         #gameOverlay {
             display: none;
             position: fixed;
@@ -70,14 +70,12 @@
             width: 100%;
             height: 100%;
             position: relative;
-            background: #000;
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
-            display: block;
         }
 
         .overlay-ui {
@@ -93,18 +91,6 @@
             pointer-events: none;
         }
 
-        .game-label {
-            color: white;
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            background: rgba(0,0,0,0.6);
-            padding: 4px 12px;
-            border-radius: 20px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
         .close-btn {
             pointer-events: auto;
             background: #ef4444;
@@ -118,102 +104,185 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            transition: all 0.2s;
         }
 
-        .close-btn:hover {
-            transform: scale(1.1);
-            background: #dc2626;
+        /* Contenedor de Anuncios Estilizado */
+        .ad-banner-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 1rem auto;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            border: 1px dashed rgba(51, 65, 85, 0.5);
+            overflow: hidden;
         }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-950">
-        <h1 class="text-xl font-black italic tracking-tighter">HTML5<span class="text-blue-500">DIRECT</span></h1>
-        <div class="flex items-center gap-2">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">55 Juegos • Carga Directa</span>
+    <nav class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-950 sticky top-0 z-50">
+        <h1 class="text-xl font-black italic tracking-tighter uppercase">Arcade<span class="text-blue-500">Hub</span></h1>
+        <div class="flex items-center gap-3">
+            <div class="hidden md:block text-right">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Estado del Sistema</p>
+                <p class="text-[10px] text-green-500 font-mono">ONLINE</p>
+            </div>
+            <button class="bg-slate-800 p-2 rounded-lg hover:bg-slate-700 transition">
+                <i class="fas fa-search text-slate-400"></i>
+            </button>
         </div>
     </nav>
 
-    <div class="game-grid" id="mainGrid">
-        <!-- Juegos inyectados -->
+    <!-- Espacio para Anuncio -->
+    <div class="px-5">
+        <div class="ad-banner-container">
+            <!-- Bloque de Anuncio Proporcionado -->
+            <script async="async" data-cfasync="false" src="https://pl28935816.effectivegatecpm.com/6b6ec0bb5b3a86407b137ca3974af392/invoke.js"></script>
+            <div id="container-6b6ec0bb5b3a86407b137ca3974af392"></div>
+        </div>
     </div>
 
-    <!-- Overlay de Juego (Modo Directo) -->
+    <!-- Sección de 10 Categorías -->
+    <div class="bg-slate-900/50 border-b border-slate-800 py-4 px-5 overflow-x-auto">
+        <div class="flex gap-3 min-w-max" id="categoryContainer">
+            <!-- Categorías Generadas por JS -->
+        </div>
+    </div>
+
+    <!-- Contenedor de Contenido -->
+    <main class="min-h-[70vh] p-4">
+        <!-- Estado Vacío -->
+        <div class="flex flex-col items-center justify-center py-20 text-center px-4" id="emptyState">
+            <div class="bg-slate-900 p-10 rounded-3xl border border-slate-800 shadow-2xl">
+                <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-layer-group text-3xl text-blue-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-2" id="categoryNameDisplay">Acción</h2>
+                <p class="text-slate-500 max-w-xs mx-auto">Selecciona "Acción" para ver los juegos disponibles.</p>
+            </div>
+        </div>
+
+        <!-- Grid de Juegos -->
+        <div class="game-grid hidden" id="mainGrid">
+            <!-- Los juegos se cargan dinámicamente aquí -->
+        </div>
+    </main>
+
+    <!-- Overlay de Juego -->
     <div id="gameOverlay">
         <div class="overlay-ui">
-            <div class="game-label" id="activeTitle">CARGANDO...</div>
-            <button class="close-btn" onclick="exitGame()">
+            <div class="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white text-xs font-bold uppercase tracking-widest" id="activeTitle">
+                Cargando...
+            </div>
+            <button class="close-btn shadow-lg" onclick="exitGame()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="iframe-wrapper">
-            <!-- El iframe cargará el enlace directo del motor del juego -->
             <iframe id="gameRender" src="" allow="autoplay; fullscreen; keyboard"></iframe>
         </div>
     </div>
 
     <script>
-        // Los IDs reales para construir la URL https://html5.gamemonetize.co/[ID]/
-        const baseGames = [
-            { n: "Flap Mania", t: "n306rd6qkhfjd9koa3ny0d9i6kk5yc2d", id: "qxgxyj8sbplqwsvey21retmro37g87qz" },
-            { n: "Leñador Loco", t: "3z3sbbpqn85ujl25j6d9i9meqz7ukpvv", id: "3z3sbbpqn85ujl25j6d9i9meqz7ukpvv" }, // Usando el thumb como fallback de ID si no se tiene el específico
-            { n: "Fast Food Crash", t: "doz6r9wbxylynd9wm0e7us3l4hnbi48o", id: "doz6r9wbxylynd9wm0e7us3l4hnbi48o" },
-            { n: "Esferas Zen", t: "rloxsw12aa85yhnf5i03bpxoy19zx4sm", id: "rloxsw12aa85yhnf5i03bpxoy19zx4sm" },
-            { n: "INCOWORD", t: "y4wmrpbd3v374mr8z6vtd97bwbo4kc82", id: "y4wmrpbd3v374mr8z6vtd97bwbo4kc82" },
-            { n: "Mosca vs Gigante", t: "7oftpghduw8433h7nk9i1tzprwv14dq7", id: "7oftpghduw8433h7nk9i1tzprwv14dq7" },
-            { n: "Zombis TD", t: "knshiuf6o2tiu9m9yc5qoayma0acrsei", id: "knshiuf6o2tiu9m9yc5qoayma0acrsei" },
-            { n: "Velocidad Neón", t: "2n7d2035nvye9198r3ua7gzs00gfcgqf", id: "2n7d2035nvye9198r3ua7gzs00gfcgqf" },
-            { n: "Carrera 3D", t: "qj5gmdy7hx6a39ysmgesh6hy6v8hxwog", id: "qj5gmdy7hx6a39ysmgesh6hy6v8hxwog" },
-            { n: "Knife Ring IO", t: "o4z536vc7p29he245yvxgyqovdvb4t2a", id: "o4z536vc7p29he245yvxgyqovdvb4t2a" },
-            { n: "Pasteles Hiper", t: "kd5fozqq3ym7hn6d0bwsjelu044sv02g", id: "kd5fozqq3ym7hn6d0bwsjelu044sv02g" },
-            { n: "Word Connect", t: "xvyeg09h6a1hdozy2apfkfueuwrtqsyv", id: "xvyeg09h6a1hdozy2apfkfueuwrtqsyv" },
-            { n: "Globo Pop 3D", t: "38f1ghgchix4htcolh0gygly2edwni0c", id: "38f1ghgchix4htcolh0gygly2edwni0c" },
-            { n: "Gemas de Arena", t: "j0p9b0lsu6sb2ie9n0mciq64hwn0so59", id: "j0p9b0lsu6sb2ie9n0mciq64hwn0so59" },
-            { n: "Baby Care", t: "o6k49dxjpsbwesebqd6o6gi6igydsqme", id: "o6k49dxjpsbwesebqd6o6gi6igydsqme" },
-            { n: "Anti-Estrés", t: "o5g16n86iol1tfnm6xik4qhhboo19qmo", id: "o5g16n86iol1tfnm6xik4qhhboo19qmo" },
-            { n: "Car Rush 3D", t: "k9u6mpxqxhh9v7l7lny0i3m9kk5yc2d", id: "k9u6mpxqxhh9v7l7lny0i3m9kk5yc2d" },
-            { n: "Color Blocks", t: "o6z536vc7p29he245yvxgyqovdvb4t2a", id: "o6z536vc7p29he245yvxgyqovdvb4t2a" },
-            { n: "Space Survival", t: "knshiuf6o2tiu9m9yc5qoayma0acrsei", id: "knshiuf6o2tiu9m9yc5qoayma0acrsei" },
-            { n: "Bubble Shooter", t: "o4k49dxjpsbwesebqd6o6gi6igydsqme", id: "o4k49dxjpsbwesebqd6o6gi6igydsqme" }
+        // Listado de juegos para la categoría Acción
+        const actionGames = [
+            { id: 1, name: "Arte en pasteles 3D", thumb: "https://img.gamemonetize.com/u7bg9t65saj2e2n19tfzn60qeaci5ash/512x384.jpg", url: "https://gamemonetize.com/cake-art-3d-game" },
+            { id: 2, name: "Vuelo de aves", thumb: "https://img.gamemonetize.com/6cmeexyonhbwmtymr3w5q24ebphb4isu/512x384.jpg", url: "https://gamemonetize.com/birdflying-game" },
+            { id: 3, name: "ESFERA", thumb: "https://img.gamemonetize.com/nub98t45rz31qr4gi4y78zegzxp5vxkf/512x384.jpg", url: "https://gamemonetize.com/spherix-game" },
+            { id: 4, name: "Fiesta de paletas", thumb: "https://img.gamemonetize.com/y6dbojw5m18tdimu5o3n1128ddysog24/512x384.jpg", url: "https://gamemonetize.com/fruit-pop-fiesta-game" },
+            { id: 5, name: "Palabras Ocultas", thumb: "https://img.gamemonetize.com/60ugltw0ffycu97l5f742t58a57mckpf/512x384.jpg", url: "https://gamemonetize.com/hidden-word-puzzle-game" },
+            { id: 6, name: "Explosión Submarina", thumb: "https://img.gamemonetize.com/2hi4m994leltx60qqb43y9xyhd63jcl5/512x384.jpg", url: "https://gamemonetize.com/underwater-blast-game" },
+            { id: 7, name: "Robo en el túnel", thumb: "https://img.gamemonetize.com/ta6wm53uvpvizef4515zrc4kdcjapqgh/512x384.jpg", url: "https://gamemonetize.com/tunnel-heist-game" },
+            { id: 8, name: "Conde Maestro Rush", thumb: "https://img.gamemonetize.com/41vwvtz70g8h6urd0s5c9k0gte1jhwfr/512x384.jpg", url: "https://gamemonetize.com/count-master-rush-game" },
+            { id: 9, name: "ZingAliens", thumb: "https://img.gamemonetize.com/j5adn527pxfr0qdx1gz6nepbhouheoiv/512x384.jpg", url: "https://gamemonetize.com/zingaliens-game" },
+            { id: 10, name: "Escape carmesí", thumb: "https://img.gamemonetize.com/vxrgn6a2a8flyow263k2qke9e519aqqk/512x384.jpg", url: "https://gamemonetize.com/crimson-escape-game" },
+            { id: 11, name: "Sort Puzzle", thumb: "https://img.gamemonetize.com/jbrmpqi1d5tqzqr2qgiuqn45zt60fizf/512x384.jpg", url: "https://gamemonetize.com/gem-sort-puzzle-game" },
+            { id: 12, name: "HogHavoc", thumb: "https://img.gamemonetize.com/jky2ccbui6itaxvfia0tms9bo0zorn48/512x384.jpg", url: "https://gamemonetize.com/hoghavoc-game" },
+            { id: 13, name: "Arrow Master", thumb: "https://img.gamemonetize.com/6dtv4ssq6cyfi00abbsebalcpdekubr8/512x384.jpg", url: "https://gamemonetize.com/arrow-count-master-game" },
+            { id: 14, name: "Labubu Burger", thumb: "https://img.gamemonetize.com/02yeisitp2cqonheb3x9kzr8iyelauk1/512x384.jpg", url: "https://gamemonetize.com/labubu-hidden-burger-game" },
+            { id: 15, name: "Crystal Crash", thumb: "https://img.gamemonetize.com/mrccgcvib1l5gzqelr1dknq5upuu39tn/512x384.jpg", url: "https://gamemonetize.com/crystal-craash-game" },
+            { id: 16, name: "Ninja Slash", thumb: "https://img.gamemonetize.com/u7bg9t65saj2e2n19tfzn60qeaci5ash/512x384.jpg", url: "https://gamemonetize.com/ninja-slash-game" },
+            { id: 17, name: "Tank Assault", thumb: "https://img.gamemonetize.com/nub98t45rz31qr4gi4y78zegzxp5vxkf/512x384.jpg", url: "https://gamemonetize.com/tank-assault-game" },
+            { id: 18, name: "Cyber Runner", thumb: "https://img.gamemonetize.com/vxrgn6a2a8flyow263k2qke9e519aqqk/512x384.jpg", url: "https://gamemonetize.com/cyber-runner-game" },
+            { id: 19, name: "Zombie Strike", thumb: "https://img.gamemonetize.com/ta6wm53uvpvizef4515zrc4kdcjapqgh/512x384.jpg", url: "https://gamemonetize.com/zombie-strike-game" },
+            { id: 20, name: "Space Wars", thumb: "https://img.gamemonetize.com/j5adn527pxfr0qdx1gz6nepbhouheoiv/512x384.jpg", url: "https://gamemonetize.com/space-wars-game" }
         ];
 
-        // Rellenar lista
-        const games = [];
-        for(let i = 0; i < 55; i++) {
-            const original = baseGames[i % baseGames.length];
-            games.push({
-                name: i < baseGames.length ? original.n : `${original.n} ${Math.floor(i/baseGames.length) + 1}`,
-                thumb: original.t,
-                // Construcción de la URL de carga directa (index.html del juego)
-                url: `https://html5.gamemonetize.co/${original.id}/`
-            });
-        }
+        const categories = [
+            { id: 'all', name: 'Todos', icon: 'fa-border-all' },
+            { id: 'action', name: 'Acción', icon: 'fa-fire' },
+            { id: 'sports', name: 'Deportes', icon: 'fa-football' },
+            { id: 'puzzle', name: 'Puzzle', icon: 'fa-puzzle-piece' },
+            { id: 'racing', name: 'Carreras', icon: 'fa-flag-checkered' },
+            { id: 'adventure', name: 'Aventura', icon: 'fa-compass' },
+            { id: 'arcade', name: 'Clásicos', icon: 'fa-ghost' },
+            { id: 'shooting', name: 'Disparos', icon: 'fa-crosshairs' },
+            { id: 'strategy', name: 'Estrategia', icon: 'fa-chess' },
+            { id: 'multiplayer', name: 'Multijugador', icon: 'fa-users' }
+        ];
 
-        const grid = document.getElementById('mainGrid');
+        const container = document.getElementById('categoryContainer');
+        const mainGrid = document.getElementById('mainGrid');
+        const emptyState = document.getElementById('emptyState');
+        const catNameDisplay = document.getElementById('categoryNameDisplay');
         const overlay = document.getElementById('gameOverlay');
         const iframe = document.getElementById('gameRender');
         const activeTitle = document.getElementById('activeTitle');
 
-        games.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <img src="https://img.gamemonetize.com/${game.thumb}/512x384.jpg" alt="${game.name}">
-                <div class="card-info">
-                    <div class="text-[11px] font-bold truncate text-slate-300 uppercase tracking-tight">${game.name}</div>
-                </div>
-            `;
-            card.onclick = () => launchGame(game.url, game.name);
-            grid.appendChild(card);
+        // Renderizar Categorías
+        categories.forEach((cat) => {
+            const btn = document.createElement('button');
+            btn.className = `category-pill flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 text-sm font-semibold hover:border-slate-500 transition-all`;
+            btn.innerHTML = `<i class="fas ${cat.icon}"></i> ${cat.name}`;
+            
+            btn.onclick = () => {
+                document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                if(cat.id === 'action' || cat.id === 'all') {
+                    renderGames(actionGames);
+                } else {
+                    showEmpty(cat.name);
+                }
+            };
+            container.appendChild(btn);
         });
 
+        function renderGames(games) {
+            emptyState.classList.add('hidden');
+            mainGrid.classList.remove('hidden');
+            mainGrid.innerHTML = '';
+            
+            games.forEach(game => {
+                const card = document.createElement('div');
+                card.className = "game-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer";
+                card.onclick = () => launchGame(game.url, game.name);
+                
+                card.innerHTML = `
+                    <div class="aspect-[4/3] relative overflow-hidden">
+                        <img src="${game.thumb}" class="w-full h-full object-cover" alt="${game.name}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="text-sm font-bold text-white truncate">${game.name}</h3>
+                        <p class="text-[10px] text-blue-400 font-bold uppercase mt-1">Acción</p>
+                    </div>
+                `;
+                mainGrid.appendChild(card);
+            });
+        }
+
+        function showEmpty(name) {
+            mainGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            catNameDisplay.innerText = name;
+        }
+
         function launchGame(url, name) {
-            // Carga directa del motor del juego
             iframe.src = url;
             activeTitle.innerText = name;
             overlay.classList.add('active');
@@ -224,6 +293,12 @@
             overlay.classList.remove('active');
             iframe.src = '';
             document.body.style.overflow = 'auto';
+        }
+
+        // Seleccionar Acción por defecto al cargar
+        window.onload = () => {
+            const actionBtn = container.children[1];
+            if(actionBtn) actionBtn.click();
         }
 
         document.addEventListener('keydown', (e) => {
