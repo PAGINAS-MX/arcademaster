@@ -3,307 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade Hub - Categoría Acción</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Game Center - Catálogo Completo</title>
+    
+    <!-- Librerías Externas -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #f43f5e;
+            --bg-color: #1e293b;
+            --card-bg: #334155;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #020617;
-            color: #f8fafc;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
             margin: 0;
-            overflow-x: hidden;
+            padding: 20px;
+            color: var(--text-main);
         }
 
-        /* Scrollbar personalizada */
-        ::-webkit-scrollbar { height: 4px; width: 6px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
-
-        .category-pill {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            white-space: nowrap;
+        header {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .category-pill.active {
-            background-color: #3b82f6;
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: none;
+            background: var(--card-bg);
             color: white;
-            box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.5);
-            border-color: #60a5fa;
+            font-size: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            outline: none;
+            border: 1px solid transparent;
+            transition: border 0.3s;
         }
 
-        .game-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3);
+        .search-box input:focus {
+            border-color: var(--accent-color);
         }
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .image-container {
+            width: 100%;
+            padding-top: 75%; 
+            position: relative;
+            background: #232f3e;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 12px;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
 
-        #gameOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            z-index: 10000;
-        }
-
-        #gameOverlay.active {
-            display: block;
-        }
-
-        .iframe-wrapper {
+        .modal-content {
+            background: var(--primary-color);
+            max-width: 450px;
             width: 100%;
-            height: 100%;
+            border-radius: 20px;
+            padding: 30px;
             position: relative;
+            text-align: center;
+            border: 1px solid var(--accent-color);
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .overlay-ui {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .btn-play {
+            display: inline-block;
             width: 100%;
             padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10001;
-            pointer-events: none;
-        }
-
-        .close-btn {
-            pointer-events: auto;
-            background: #ef4444;
+            background: var(--accent-color);
             color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
+            text-decoration: none;
             border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.1rem;
         }
 
-        /* Contenedor de Anuncios Estilizado */
-        .ad-banner-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 1rem auto;
-            min-height: 90px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(30, 41, 59, 0.3);
-            border-radius: 12px;
-            border: 1px dashed rgba(51, 65, 85, 0.5);
-            overflow: hidden;
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dim);
+        }
+
+        .counter {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <nav class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-950 sticky top-0 z-50">
-        <h1 class="text-xl font-black italic tracking-tighter uppercase">Arcade<span class="text-blue-500">Hub</span></h1>
-        <div class="flex items-center gap-3">
-            <div class="hidden md:block text-right">
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Estado del Sistema</p>
-                <p class="text-[10px] text-green-500 font-mono">ONLINE</p>
-            </div>
-            <button class="bg-slate-800 p-2 rounded-lg hover:bg-slate-700 transition">
-                <i class="fas fa-search text-slate-400"></i>
-            </button>
-        </div>
-    </nav>
+<header>
+    <h1><i class="fas fa-gamepad"></i> Game Center Pro</h1>
+    <p>Catálogo corregido y optimizado</p>
+</header>
 
-    <!-- Espacio para Anuncio -->
-    <div class="px-5">
-        <div class="ad-banner-container">
-            <!-- Bloque de Anuncio Proporcionado -->
-            <script async="async" data-cfasync="false" src="https://pl28935816.effectivegatecpm.com/6b6ec0bb5b3a86407b137ca3974af392/invoke.js"></script>
-            <div id="container-6b6ec0bb5b3a86407b137ca3974af392"></div>
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Buscar entre todos los juegos...">
+</div>
+
+<div class="counter" id="gameCounter"> Cargando juegos...</div>
+
+<div class="game-grid" id="gameGrid"></div>
+
+<div class="modal" id="gameModal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <div id="modalImgContainer" style="width: 100%; padding-top: 60%; position: relative; margin: 15px 0; border-radius: 10px; overflow: hidden;">
+            <img id="modalImg" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
         </div>
+        <p style="color: var(--text-dim); font-size: 0.9rem;">¿Listo para jugar?</p>
+        <a id="modalPlayBtn" href="#" target="_blank" class="btn-play">
+            <i class="fas fa-play"></i> JUGAR AHORA
+        </a>
     </div>
+</div>
 
-    <!-- Sección de 10 Categorías -->
-    <div class="bg-slate-900/50 border-b border-slate-800 py-4 px-5 overflow-x-auto">
-        <div class="flex gap-3 min-w-max" id="categoryContainer">
-            <!-- Categorías Generadas por JS -->
-        </div>
-    </div>
+<script>
+    // LISTA CORREGIDA (IDs limpios sin espacios ni errores tipográficos)
+    const games = [
+        { id: "fyo5pk2yiz34mwgiex6288zykf138dv8", title: "Cute Craft Lab", customImg: "https://i.postimg.cc/pLhJMw8X/todas01.jpg" },
+        { id: "04t5e3o75gx15osfi4l16bv00bm2m7rl", title: "Fishy Feast", customImg: "https://i.postimg.cc/m26yqLcZ/todas02.jpg" },
+        { id: "qevihhzihsfuigvzg8m0n6yywy0gekc", title: "Find The Difference", customImg: "https://i.postimg.cc/fTgfFz3R/todas03.jpg" },
+        { id: "38zhf4nds95r8xgmj3v2dn17zibgepc", title: "Tile Hill Desc", customImg: "https://i.postimg.cc/8zJmg2Wz/todas04.jpg" },
+        { id: "usceisycqm2lscyz38v8115ftml2s4fy", title: "Triple Combo", customImg: "https://i.postimg.cc/6p2fxkRW/todas05.jpg" },
+        { id: "w4oguacv97vmwgn6ksie9huzc3u721hi", title: "Undead Shoo", customImg: "https://i.postimg.cc/8Pnm3pFC/todas06.jpg" },
+        { id: "tvjvn6j4qy5u2ust03u5419ek0g53nvui", title: "Rocket Fuel", customImg: "https://i.postimg.cc/ZKDxgb9n/todas07.jpg" },
+        { id: "odqp1gf11gg22fq6t5kiuxrdibkhna", title: "Usarobo Crys", customImg: "https://i.postimg.cc/xTF37fXh/todas08.jpg" },
+        { id: "0ucwyfpfuz3w7oa7oqt457fpw7f51zvy", title: "Gravity Shift", customImg: "https://i.postimg.cc/vHStjY4p/todas09.png" },
+        { id: "831mmgpd6esv8e8q9cr5ul5kp2nx0pd6", title: "Morph Racer", customImg: "https://i.postimg.cc/sD048jBd/todas10.jpg" },
+        { id: "qxc5w4jz7xhfaj9i2r9o7li1slmwvt19", title: "ChickZ Stack", customImg: "https://i.postimg.cc/QxnJP8BL/todas11.png" },
+        { id: "b5upjvb40xxim12v4ytzt5naxuu7ps3d", title: "Basket Ball F", customImg: "https://i.postimg.cc/WbfwKNDj/todas12.jpg" },
+        { id: "f6rxmv7pmquaa41fxg5vy64rn57cx2iu", title: "Gun Shooting", customImg: "https://i.postimg.cc/X7DkhjZ4/todas13.jpg" },
+        { id: "9g5bi3ihzosg9yrxty43f4qytv0qpucr", title: "Farm Animal", customImg: "https://i.postimg.cc/VLHWTfJ7/todas14.jpg" },
+        { id: "h55kn768i19pgkip4usrnfghboclf9q", title: "Goods Sorting", customImg: "https://i.postimg.cc/sD048jMH/todas15.jpg" },
+        { id: "9x8utbfbfngfonj2hgyhj177ggs9r0gr", title: "Police Here", customImg: "https://i.postimg.cc/SNtf5Snv/todas16.jpg" },
+        { id: "24yl9usuemedm0qtq7gfulclrafbvcdm", title: "Ayla World", customImg: "https://i.postimg.cc/yYNTvg8t/todas17.jpg" },
+        { id: "q837ln4xfhoek7kc2gd4c6ia6exx6t1u", title: "Breakthrough", customImg: "https://i.postimg.cc/wTBk0yjS/todas18.jpg" },
+        { id: "17zke6h8fsxoco8167tql0cjcdx33qle", title: "Magic Jewels", customImg: "https://i.postimg.cc/7YLNmGZc/todas19.jpg" },
+        { id: "rrogzzfh00gw6e7h1ru7s64efs0t8kl7", title: "Pop Frenzy", customImg: "https://i.postimg.cc/65QhY2Qs/todas20.jpg" },
+        { id: "og2m74ho3ajggl47n4gtsj9hhq1pjj79", title: "Merge Factor", customImg: "https://i.postimg.cc/sD048jMT/todas21.jpg" },
+        { id: "3mn4gak5n17l7bx9m726lvcozg76r2nm", title: "Stellar Assault", customImg: "https://i.postimg.cc/02NCcMyV/todas22.jpg" },
+        { id: "tsa97y9kfv4620ba6h22f05ozk4k7xok", title: "Solve or Suffer", customImg: "https://i.postimg.cc/5NtmnY2r/todas23.jpg" },
+        { id: "iu51x9eqtamcu8ll9f3lc4owsc2zu1ez", title: "Runboy", customImg: "https://i.postimg.cc/gk0KNX2R/todas24.jpg" },
+        { id: "72djui35eoe7fo2wp8ltdo2ra6so2iiz", title: "Sand Blocks", customImg: "https://i.postimg.cc/bNvR3Dwg/todas25.jpg" },
+        { id: "rmn0lrs7cp5v4lrmm4doocr4bk21668f", title: "CarRush", customImg: "https://i.postimg.cc/ncL10jhk/todas26.jpg" },
+        { id: "7101lwi19j9cicrhb2soic22wa92ew8p", title: "Poop Away", customImg: "https://i.postimg.cc/sD2JwQgM/todas27.jpg" },
+        { id: "n3co5b02s1nwvo2ux6o1knl0tskamhrb", title: "Crosswalk", customImg: "https://i.postimg.cc/ZKqLVB5y/todas28.jpg" },
+        { id: "yvapk21r7zv0306a1g3gag8p8hkazh1k", title: "PIXEL DRIFT", customImg: "https://i.postimg.cc/pXdBqhL5/todas29.jpg" },
+        { id: "eb6fuew9429xcb4hj1q9bjvwkzi5wzu", title: "Color Pop", customImg: "https://i.postimg.cc/pXdBqhLj/todas30.jpg" },
+        { id: "jlspxaiqq2lz82h7pzne3jcdb9qy0ieh", title: "Brain Train", customImg: "https://i.postimg.cc/ZYHc8F4v/todas31.jpg" },
+        { id: "q662za2h4ew3qlt2e3z9prb1gnsdwqln", title: "Superhero", customImg: "https://i.postimg.cc/mZjwYNBC/todas32.jpg" },
+        { id: "ccnq2djkytsdszk69fyueztdzsvro", title: "Emoji Merge", customImg: "https://i.postimg.cc/SQdr67kL/todas33.jpg" },
+        { id: "aici1vwowxrzcmn2ar959w3h4ej8hmvt", title: "Anti Stress", customImg: "https://i.postimg.cc/QNmbQkhQ/todas34.jpg" },
+        { id: "0njrzkkitzt7u8o1i78yekyatxkgtmev", title: "Word Safari", customImg: "https://i.postimg.cc/J7xqNcMG/todas35.jpg" },
+        { id: "shm2tov3b0k29xcqpmlgr6pf0djq2e8c", title: "Pixel Flow 2", customImg: "https://i.postimg.cc/7P9V3Mw5/todas36.jpg" },
+        { id: "geqc9uccfdv8yrplq2b9dlqs5so4wrnv", title: "CAT CITY", customImg: "https://i.postimg.cc/gcsDVqmX/todas37.jpg" },
+        { id: "ym3rluctwaeh0mgo9agd7mzv2lgaxby", title: "Onet Puzzle", customImg: "https://i.postimg.cc/L4DTtB2H/todas38.jpg" },
+        { id: "g3a0vux2of0fedy nwoawswa5uqufj84", title: "Mazes Draw", customImg: "https://i.postimg.cc/BZpgTc4f/todas39.jpg" },
+        { id: "pvzxe30urw9ymgc8uoa7yzk5jhoeufxf", title: "The Last 15", customImg: "https://i.postimg.cc/dQ6B2mwY/todas40.jpg" },
+        { id: "sp9y4nfp0kkd5rg8r0y45pgjszfu772", title: "Sid & Ginny", customImg: "https://i.postimg.cc/66c0rLtt/todas41.jpg" },
+        { id: "r2rmek6ph1366ziiayrk3hp96xulo9jw", title: "Reflex Shot", customImg: "https://i.postimg.cc/3NtF37n9/todas42.jpg" },
+        { id: "hgrj3m9wd61mmd3a0nr0ftn3l7zn0q12", title: "Grand Hotel", customImg: "https://i.postimg.cc/tJBN9y2m/todas43.jpg" },
+        { id: "enwkn26qzju91amh2g88di9eld7l13r5", title: "Word Up", customImg: "https://i.postimg.cc/VsgRqBmy/todas44.jpg" },
+        { id: "kp3t95t8xn73gqv7w8t7zz65crtdppy0", title: "Roll or Fall", customImg: "https://i.postimg.cc/kGTv79fv/todas45.jpg" },
+        { id: "jzr2qz9ccnrpru8iy0rhakfvsjykxo4k", title: "SPLIT", customImg: "https://i.postimg.cc/fy8fMZBc/todas46.jpg" },
+        { id: "ws8gf3afq3f3dt057xnyk5jktx2maw0", title: "Light House", customImg: "https://i.postimg.cc/NFdkQYp4/todas47.jpg" },
+        { id: "fy5639e9wors1j8wu5nhgke5ae5lz06t", title: "Asteroid Dodge", customImg: "https://i.postimg.cc/MH9mzxdd/todas48.jpg" },
+        { id: "7mlttdzk8gpzvx6tpd6e68p3wetqa460", title: "Ball Escape", customImg: "https://i.postimg.cc/prsJPxqK/todas49.jpg" },
+        { id: "61d5cpirx2hyef1nodhl8ao2rjsx3av2", title: "Squid Survival", customImg: "https://i.postimg.cc/PJSQdh2z/todas50.jpg" }
+    ];
 
-    <!-- Contenedor de Contenido -->
-    <main class="min-h-[70vh] p-4">
-        <!-- Estado Vacío -->
-        <div class="flex flex-col items-center justify-center py-20 text-center px-4" id="emptyState">
-            <div class="bg-slate-900 p-10 rounded-3xl border border-slate-800 shadow-2xl">
-                <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-layer-group text-3xl text-blue-500"></i>
+    const grid = document.getElementById('gameGrid');
+    const searchInput = document.getElementById('searchInput');
+    const counter = document.getElementById('gameCounter');
+    const modal = document.getElementById('gameModal');
+
+    function renderGames(filter = "") {
+        grid.innerHTML = "";
+        const filtered = games.filter(g => g.title.toLowerCase().includes(filter.toLowerCase()));
+        counter.innerText = `Mostrando ${filtered.length} de ${games.length} juegos`;
+
+        filtered.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.onclick = () => openModal(game);
+            
+            card.innerHTML = `
+                <div class="image-container">
+                    <img src="${game.customImg}" alt="${game.title}" loading="lazy">
                 </div>
-                <h2 class="text-2xl font-bold text-white mb-2" id="categoryNameDisplay">Acción</h2>
-                <p class="text-slate-500 max-w-xs mx-auto">Selecciona "Acción" para ver los juegos disponibles.</p>
-            </div>
-        </div>
-
-        <!-- Grid de Juegos -->
-        <div class="game-grid hidden" id="mainGrid">
-            <!-- Los juegos se cargan dinámicamente aquí -->
-        </div>
-    </main>
-
-    <!-- Overlay de Juego -->
-    <div id="gameOverlay">
-        <div class="overlay-ui">
-            <div class="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 text-white text-xs font-bold uppercase tracking-widest" id="activeTitle">
-                Cargando...
-            </div>
-            <button class="close-btn shadow-lg" onclick="exitGame()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="iframe-wrapper">
-            <iframe id="gameRender" src="" allow="autoplay; fullscreen; keyboard"></iframe>
-        </div>
-    </div>
-
-    <script>
-        // Listado de juegos para la categoría Acción
-        const actionGames = [
-            { id: 1, name: "Arte en pasteles 3D", thumb: "https://img.gamemonetize.com/u7bg9t65saj2e2n19tfzn60qeaci5ash/512x384.jpg", url: "https://gamemonetize.com/cake-art-3d-game" },
-            { id: 2, name: "Vuelo de aves", thumb: "https://img.gamemonetize.com/6cmeexyonhbwmtymr3w5q24ebphb4isu/512x384.jpg", url: "https://gamemonetize.com/birdflying-game" },
-            { id: 3, name: "ESFERA", thumb: "https://img.gamemonetize.com/nub98t45rz31qr4gi4y78zegzxp5vxkf/512x384.jpg", url: "https://gamemonetize.com/spherix-game" },
-            { id: 4, name: "Fiesta de paletas", thumb: "https://img.gamemonetize.com/y6dbojw5m18tdimu5o3n1128ddysog24/512x384.jpg", url: "https://gamemonetize.com/fruit-pop-fiesta-game" },
-            { id: 5, name: "Palabras Ocultas", thumb: "https://img.gamemonetize.com/60ugltw0ffycu97l5f742t58a57mckpf/512x384.jpg", url: "https://gamemonetize.com/hidden-word-puzzle-game" },
-            { id: 6, name: "Explosión Submarina", thumb: "https://img.gamemonetize.com/2hi4m994leltx60qqb43y9xyhd63jcl5/512x384.jpg", url: "https://gamemonetize.com/underwater-blast-game" },
-            { id: 7, name: "Robo en el túnel", thumb: "https://img.gamemonetize.com/ta6wm53uvpvizef4515zrc4kdcjapqgh/512x384.jpg", url: "https://gamemonetize.com/tunnel-heist-game" },
-            { id: 8, name: "Conde Maestro Rush", thumb: "https://img.gamemonetize.com/41vwvtz70g8h6urd0s5c9k0gte1jhwfr/512x384.jpg", url: "https://gamemonetize.com/count-master-rush-game" },
-            { id: 9, name: "ZingAliens", thumb: "https://img.gamemonetize.com/j5adn527pxfr0qdx1gz6nepbhouheoiv/512x384.jpg", url: "https://gamemonetize.com/zingaliens-game" },
-            { id: 10, name: "Escape carmesí", thumb: "https://img.gamemonetize.com/vxrgn6a2a8flyow263k2qke9e519aqqk/512x384.jpg", url: "https://gamemonetize.com/crimson-escape-game" },
-            { id: 11, name: "Sort Puzzle", thumb: "https://img.gamemonetize.com/jbrmpqi1d5tqzqr2qgiuqn45zt60fizf/512x384.jpg", url: "https://gamemonetize.com/gem-sort-puzzle-game" },
-            { id: 12, name: "HogHavoc", thumb: "https://img.gamemonetize.com/jky2ccbui6itaxvfia0tms9bo0zorn48/512x384.jpg", url: "https://gamemonetize.com/hoghavoc-game" },
-            { id: 13, name: "Arrow Master", thumb: "https://img.gamemonetize.com/6dtv4ssq6cyfi00abbsebalcpdekubr8/512x384.jpg", url: "https://gamemonetize.com/arrow-count-master-game" },
-            { id: 14, name: "Labubu Burger", thumb: "https://img.gamemonetize.com/02yeisitp2cqonheb3x9kzr8iyelauk1/512x384.jpg", url: "https://gamemonetize.com/labubu-hidden-burger-game" },
-            { id: 15, name: "Crystal Crash", thumb: "https://img.gamemonetize.com/mrccgcvib1l5gzqelr1dknq5upuu39tn/512x384.jpg", url: "https://gamemonetize.com/crystal-craash-game" },
-            { id: 16, name: "Ninja Slash", thumb: "https://img.gamemonetize.com/u7bg9t65saj2e2n19tfzn60qeaci5ash/512x384.jpg", url: "https://gamemonetize.com/ninja-slash-game" },
-            { id: 17, name: "Tank Assault", thumb: "https://img.gamemonetize.com/nub98t45rz31qr4gi4y78zegzxp5vxkf/512x384.jpg", url: "https://gamemonetize.com/tank-assault-game" },
-            { id: 18, name: "Cyber Runner", thumb: "https://img.gamemonetize.com/vxrgn6a2a8flyow263k2qke9e519aqqk/512x384.jpg", url: "https://gamemonetize.com/cyber-runner-game" },
-            { id: 19, name: "Zombie Strike", thumb: "https://img.gamemonetize.com/ta6wm53uvpvizef4515zrc4kdcjapqgh/512x384.jpg", url: "https://gamemonetize.com/zombie-strike-game" },
-            { id: 20, name: "Space Wars", thumb: "https://img.gamemonetize.com/j5adn527pxfr0qdx1gz6nepbhouheoiv/512x384.jpg", url: "https://gamemonetize.com/space-wars-game" }
-        ];
-
-        const categories = [
-            { id: 'all', name: 'Todos', icon: 'fa-border-all' },
-            { id: 'action', name: 'Acción', icon: 'fa-fire' },
-            { id: 'sports', name: 'Deportes', icon: 'fa-football' },
-            { id: 'puzzle', name: 'Puzzle', icon: 'fa-puzzle-piece' },
-            { id: 'racing', name: 'Carreras', icon: 'fa-flag-checkered' },
-            { id: 'adventure', name: 'Aventura', icon: 'fa-compass' },
-            { id: 'arcade', name: 'Clásicos', icon: 'fa-ghost' },
-            { id: 'shooting', name: 'Disparos', icon: 'fa-crosshairs' },
-            { id: 'strategy', name: 'Estrategia', icon: 'fa-chess' },
-            { id: 'multiplayer', name: 'Multijugador', icon: 'fa-users' }
-        ];
-
-        const container = document.getElementById('categoryContainer');
-        const mainGrid = document.getElementById('mainGrid');
-        const emptyState = document.getElementById('emptyState');
-        const catNameDisplay = document.getElementById('categoryNameDisplay');
-        const overlay = document.getElementById('gameOverlay');
-        const iframe = document.getElementById('gameRender');
-        const activeTitle = document.getElementById('activeTitle');
-
-        // Renderizar Categorías
-        categories.forEach((cat) => {
-            const btn = document.createElement('button');
-            btn.className = `category-pill flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 text-sm font-semibold hover:border-slate-500 transition-all`;
-            btn.innerHTML = `<i class="fas ${cat.icon}"></i> ${cat.name}`;
-            
-            btn.onclick = () => {
-                document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                if(cat.id === 'action' || cat.id === 'all') {
-                    renderGames(actionGames);
-                } else {
-                    showEmpty(cat.name);
-                }
-            };
-            container.appendChild(btn);
+                <div class="game-info">
+                    <h3 class="game-title">${game.title}</h3>
+                </div>
+            `;
+            grid.appendChild(card);
         });
+    }
 
-        function renderGames(games) {
-            emptyState.classList.add('hidden');
-            mainGrid.classList.remove('hidden');
-            mainGrid.innerHTML = '';
-            
-            games.forEach(game => {
-                const card = document.createElement('div');
-                card.className = "game-card bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden cursor-pointer";
-                card.onclick = () => launchGame(game.url, game.name);
-                
-                card.innerHTML = `
-                    <div class="aspect-[4/3] relative overflow-hidden">
-                        <img src="${game.thumb}" class="w-full h-full object-cover" alt="${game.name}">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="text-sm font-bold text-white truncate">${game.name}</h3>
-                        <p class="text-[10px] text-blue-400 font-bold uppercase mt-1">Acción</p>
-                    </div>
-                `;
-                mainGrid.appendChild(card);
-            });
-        }
+    function openModal(game) {
+        // Limpiamos el ID por si acaso hubiera espacios accidentales
+        const cleanId = game.id.trim();
+        document.getElementById('modalTitle').innerText = game.title;
+        document.getElementById('modalImg').src = game.customImg;
+        document.getElementById('modalPlayBtn').href = `https://html5.gamemonetize.co/${cleanId}/`;
+        modal.style.display = 'flex';
+    }
 
-        function showEmpty(name) {
-            mainGrid.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-            catNameDisplay.innerText = name;
-        }
+    function closeModal() {
+        modal.style.display = 'none';
+    }
 
-        function launchGame(url, name) {
-            iframe.src = url;
-            activeTitle.innerText = name;
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+    window.onclick = (e) => { if(e.target == modal) closeModal(); }
+    searchInput.addEventListener('input', (e) => renderGames(e.target.value));
+    
+    window.onload = () => renderGames();
+</script>
 
-        function exitGame() {
-            overlay.classList.remove('active');
-            iframe.src = '';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Seleccionar Acción por defecto al cargar
-        window.onload = () => {
-            const actionBtn = container.children[1];
-            if(actionBtn) actionBtn.click();
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if(e.key === "Escape") exitGame();
-        });
-    </script>
 </body>
 </html>
