@@ -33,7 +33,16 @@
 
         .search-box {
             max-width: 600px;
+            margin: 0 auto 20px auto;
+        }
+
+        .ad-container {
+            max-width: 900px;
             margin: 0 auto 40px auto;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .search-box input {
@@ -171,6 +180,12 @@
     <input type="text" id="searchInput" placeholder="Buscar entre todos los juegos...">
 </div>
 
+<!-- Sección de Anuncios -->
+<div class="ad-container">
+    <script async="async" data-cfasync="false" src="https://pl28935816.profitablecpmratenetwork.com/6b6ec0bb5b3a86407b137ca3974af392/invoke.js"></script>
+    <div id="container-6b6ec0bb5b3a86407b137ca3974af392"></div>
+</div>
+
 <div class="counter" id="gameCounter"> Cargando juegos...</div>
 
 <div class="game-grid" id="gameGrid"></div>
@@ -190,7 +205,6 @@
 </div>
 
 <script>
-    // LISTA CORREGIDA (IDs limpios sin espacios ni errores tipográficos)
     const games = [
         { id: "fyo5pk2yiz34mwgiex6288zykf138dv8", title: "Cute Craft Lab", customImg: "https://i.postimg.cc/pLhJMw8X/todas01.jpg" },
         { id: "04t5e3o75gx15osfi4l16bv00bm2m7rl", title: "Fishy Feast", customImg: "https://i.postimg.cc/m26yqLcZ/todas02.jpg" },
@@ -272,7 +286,6 @@
     }
 
     function openModal(game) {
-        // Limpiamos el ID por si acaso hubiera espacios accidentales
         const cleanId = game.id.trim();
         document.getElementById('modalTitle').innerText = game.title;
         document.getElementById('modalImg').src = game.customImg;
