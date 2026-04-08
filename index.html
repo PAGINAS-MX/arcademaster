@@ -3,289 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Music - Acordes y Escalas</title>
+    <title>Master Music - Teoría e Investigación</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --accent: #3b82f6;
+            --bg-dark: #0a0c10;
+            --card-bg: #13171f;
+        }
+
         body {
-            background-color: #0f172a; 
+            background-color: var(--bg-dark);
             color: #f1f5f9;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
         }
-        .menu-card {
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            min-height: 110px;
-            font-weight: 700;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background-color: #1e293b;
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
         }
-        .menu-card:active {
-            transform: scale(0.95);
-            background-color: #334155;
+
+        .content-section {
+            border-left: 1px solid #1e293b;
+            padding-left: 2rem;
+            position: relative;
         }
-        .note-bubble {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 800;
-            background: #1e293b;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
-            font-size: 0.9rem;
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            left: -3px;
+            top: 0;
+            width: 5px;
+            height: 20px;
+            background: var(--accent);
+        }
+
+        .sidebar-item {
+            transition: all 0.3s ease;
+            border-right: 2px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(59, 130, 246, 0.05);
+            border-right: 2px solid var(--accent);
             color: white;
         }
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
+
+        .academic-card {
+            background: var(--card-bg);
+            border: 1px solid #1e293b;
+            border-radius: 1.5rem;
         }
-        .modal-anim {
-            animation: slideIn 0.3s ease-out;
+
+        .glossary-term {
+            color: var(--accent);
+            font-weight: 700;
+            cursor: help;
+            border-bottom: 1px dashed #334155;
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .note-item-btn {
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            color: #f1f5f9;
-        }
-        .info-box {
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border-left: 4px solid #3b82f6;
-        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
-<body class="p-4 max-w-lg mx-auto pb-20">
+<body class="selection:bg-blue-500/30">
 
-    <header class="text-center my-10">
-        <h1 class="text-4xl font-extrabold text-white tracking-tighter">Master Music</h1>
-        <p class="text-blue-400 text-sm font-medium uppercase tracking-widest mt-2">Teoría y Diccionario Interactivo</p>
-    </header>
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-md">
+        <div class="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg rotate-3 flex items-center justify-center shadow-lg shadow-blue-900/40">
+                    <span class="text-white font-black text-lg">M</span>
+                </div>
+                <h1 class="text-sm font-black uppercase tracking-[0.3em] text-white">Master <span class="text-blue-500">Music</span></h1>
+            </div>
+            <div class="hidden md:flex gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <a href="#intro" class="hover:text-white transition-colors">Investigación</a>
+                <a href="#historia" class="hover:text-white transition-colors">Historia</a>
+                <a href="#contenido" class="hover:text-white transition-colors">Contenido</a>
+                <a href="#fundamentos" class="hover:text-white transition-colors">Fundamentos</a>
+            </div>
+        </div>
+    </nav>
 
-    <section class="mb-10">
-        <div class="info-box p-5 rounded-2xl shadow-xl">
-            <h3 class="text-lg font-bold text-white mb-2">¿Cómo usar esta guía?</h3>
-            <p class="text-slate-400 text-sm leading-relaxed">
-                Selecciona una categoría para visualizar las notas que componen cada estructura. 
-                <strong class="text-slate-200">Los acordes</strong> son el acompañamiento (armonía), mientras que <strong class="text-slate-200">las escalas</strong> son la base para crear melodías y solos.
+    <div class="max-w-[1400px] mx-auto flex pt-24 px-6 gap-12">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="hidden lg:block w-72 sticky top-24 h-[calc(100vh-100px)] overflow-y-auto">
+            <div class="space-y-1">
+                <p class="text-[10px] font-black text-slate-600 uppercase mb-4 tracking-tighter">Exploración Teórica</p>
+                <a href="#intro" class="sidebar-item block p-3 text-sm text-slate-400">01. Objeto de Estudio</a>
+                <a href="#oxford" class="sidebar-item block p-3 text-sm text-slate-400">02. Aspectos Oxford</a>
+                <a href="#quadrivium" class="sidebar-item block p-3 text-sm text-slate-400">03. Quadrivium Medieval</a>
+                <a href="#historia" class="sidebar-item block p-3 text-sm text-slate-400">04. Evolución del Concepto</a>
+                <a href="#contenido" class="sidebar-item block p-3 text-sm text-slate-400">05. Currículo Teórico</a>
+                <a href="#fundamentos" class="sidebar-item block p-3 text-sm text-slate-400">06. Fenómenos Auditivos</a>
+                <a href="#expresion" class="sidebar-item block p-3 text-sm text-slate-400 text-blue-400 font-bold italic">07. Expresión Musical</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 space-y-24 hero-gradient pb-20">
+            
+            <!-- Intro Section -->
+            <section id="intro" class="space-y-8 animate-in fade-in duration-700">
+                <div class="inline-block px-4 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
+                    <span class="text-[10px] font-bold text-blue-400 uppercase tracking-[0.2em]">Musicología Aplicada</span>
+                </div>
+                <h2 class="text-6xl font-extrabold tracking-tighter text-white max-w-3xl">
+                    Teoría Musical: <br><span class="text-slate-500 italic">Investigación y Práctica</span>
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed">
+                        <p>
+                            La teoría musical es un campo de estudio dedicado a la <span class="glossary-term">investigación</span> de los diversos elementos de la música, desde su metodología hasta el análisis de la composición. 
+                        </p>
+                        <p class="text-slate-500 text-sm italic">
+                            Grabado: Jubal, Pitágoras y Filolao realizando investigaciones teóricas (Franchinus Gaffurius, 1492).
+                        </p>
+                    </div>
+                    <div class="academic-card p-6 space-y-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Definición Oxford</span>
+                        </div>
+                        <p class="text-sm text-slate-300">"El estudio de los escritos musicales desde la antigüedad hasta nuestros días."</p>
+                        <div class="pt-4 grid grid-cols-2 gap-4">
+                            <div class="p-3 bg-black/30 rounded-lg">
+                                <span class="block text-xl font-bold text-white">3</span>
+                                <span class="text-[10px] text-slate-500">Aspectos clave</span>
+                            </div>
+                            <div class="p-3 bg-black/30 rounded-lg">
+                                <span class="block text-xl font-bold text-white">MA/PhD</span>
+                                <span class="text-[10px] text-slate-500">Formación académica</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quadrivium Section -->
+            <section id="quadrivium" class="content-section">
+                <h3 class="text-2xl font-black text-white mb-6 uppercase tracking-tighter">El Quadrivium Medieval</h3>
+                <div class="bg-blue-600/5 border border-blue-600/20 p-8 rounded-3xl flex flex-col md:flex-row gap-8 items-center">
+                    <div class="flex-1 space-y-4 text-slate-400">
+                        <p>
+                            En la Europa medieval, la música se estudiaba dentro de las <span class="text-white italic">artes liberales</span> como un sistema abstracto de proporciones. Esta disciplina, aunque distante de la práctica real, sentó las bases de los <span class="text-blue-400">sistemas de afinación</span> modernos.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-48 h-48 rounded-full border-2 border-dashed border-blue-500/30 flex items-center justify-center p-4">
+                        <div class="text-center">
+                            <span class="block text-xs font-mono text-blue-400">Harmonia</span>
+                            <span class="block text-[10px] text-slate-600">Ratio & Proportio</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Curriculo Section -->
+            <section id="contenido" class="space-y-12">
+                <div class="flex items-end justify-between border-b border-white/5 pb-4">
+                    <h3 class="text-2xl font-black text-white uppercase tracking-tighter">Contenido Curricular</h3>
+                    <span class="text-[10px] font-mono text-slate-500">Sincrónico & Diacrónico</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="academic-card p-6 hover:bg-blue-500/5 transition-all">
+                        <span class="text-blue-500 text-xs font-bold mb-4 block">01 / Rudimentos</span>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>Notación & Armaduras</li>
+                            <li>Indicadores de Compás</li>
+                            <li>Valores Rítmicos</li>
+                        </ul>
+                    </div>
+                    <div class="academic-card p-6 hover:bg-blue-500/5 transition-all">
+                        <span class="text-blue-500 text-xs font-bold mb-4 block">02 / Técnicas</span>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>Armonía & Contrapunto</li>
+                            <li>Orquestación & Timbre</li>
+                            <li>Improvisación</li>
+                        </ul>
+                    </div>
+                    <div class="academic-card p-6 hover:bg-blue-500/5 transition-all">
+                        <span class="text-blue-500 text-xs font-bold mb-4 block">03 / Análisis</span>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>Acústica Musical</li>
+                            <li>Sistemas de Afinación</li>
+                            <li>Socio-Musicología</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fundamentos Section -->
+            <section id="fundamentos" class="space-y-8">
+                <h3 class="text-2xl font-black text-white uppercase tracking-tighter">Fundamentos de la Música</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 rounded-2xl p-6 border border-white/5">
+                            <h4 class="text-white font-bold mb-2">El Tono</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                El tono es la <span class="italic text-slate-200">altura</span> de un sonido musical. Los teóricos suelen describirlo como una sensación subjetiva. Actualmente, el <span class="text-blue-400">La de concierto</span> se asigna a 440 Hz (ISO 16).
+                            </p>
+                            <div class="mt-4 flex gap-2">
+                                <button class="px-3 py-1 bg-blue-600 rounded text-[10px] font-bold">440Hz</button>
+                                <button class="px-3 py-1 bg-slate-800 rounded text-[10px] font-bold">435Hz (Histórico)</button>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 rounded-2xl p-6 border border-white/5">
+                            <h4 class="text-white font-bold mb-2">Consonancia y Disonancia</h4>
+                            <p class="text-sm text-slate-400 leading-relaxed">
+                                Cualidades subjetivas que varían entre culturas. La <span class="text-blue-400">consonancia</span> provee estabilidad; la <span class="text-red-400">disonancia</span> busca resolución. Schoenberg propuso la "disonancia emancipada" en el siglo XX.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 rounded-3xl border border-blue-500/10 p-8 flex flex-col justify-center">
+                        <p class="text-sm text-slate-500 uppercase tracking-widest font-bold mb-6">Niveles Métricos</p>
+                        <div class="space-y-4">
+                            <div class="h-1 bg-slate-800 rounded-full relative overflow-hidden">
+                                <div class="absolute h-full w-1/4 bg-blue-500 left-0"></div>
+                            </div>
+                            <div class="h-1 bg-slate-800 rounded-full relative overflow-hidden">
+                                <div class="absolute h-full w-1/2 bg-blue-400 left-0"></div>
+                            </div>
+                            <div class="h-1 bg-slate-800 rounded-full relative overflow-hidden">
+                                <div class="absolute h-full w-full bg-blue-300 left-0"></div>
+                            </div>
+                        </div>
+                        <p class="mt-6 text-xs text-slate-400">
+                            El <span class="text-white">Ritmo</span> se produce por la disposición de sonidos y silencios. El <span class="text-white">Metro</span> mide la música en agrupaciones regulares llamadas compases.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expresion Section -->
+            <section id="expresion" class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+                <div class="relative bg-slate-900 border border-white/10 rounded-[2.5rem] p-12 overflow-hidden">
+                    <div class="max-w-xl">
+                        <h3 class="text-4xl font-black text-white mb-6">Expresión Musical</h3>
+                        <p class="text-slate-400 leading-relaxed text-lg italic">
+                            "El arte de tocar o cantar con comunicación emocional. Incluye el fraseo, el timbre, la articulación y la energía necesaria para provocar una respuesta de simpatía en el oyente."
+                        </p>
+                    </div>
+                    <div class="mt-10 flex flex-wrap gap-4">
+                        <span class="px-4 py-2 bg-black/40 rounded-full text-[10px] font-black uppercase text-blue-400 tracking-widest">Intensidad</span>
+                        <span class="px-4 py-2 bg-black/40 rounded-full text-[10px] font-black uppercase text-blue-400 tracking-widest">Color del Tono</span>
+                        <span class="px-4 py-2 bg-black/40 rounded-full text-[10px] font-black uppercase text-blue-400 tracking-widest">Dinamismo</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer class="mt-40 border-t border-white/5 bg-black/50 py-20 px-6">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black">M</div>
+                <div>
+                    <p class="text-white font-black uppercase text-xs tracking-tighter">Master Music</p>
+                    <p class="text-[10px] text-slate-500">Compendio de Teoría Universal</p>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-600 uppercase tracking-widest font-bold">
+                Estructurado según el Canon Académico Moderno
             </p>
         </div>
-    </section>
+    </footer>
 
-    <section class="mb-8">
-        <h2 class="text-center font-bold text-slate-500 mb-6 flex items-center justify-center gap-4">
-            <span class="flex-1 h-[1px] bg-slate-800"></span>
-            ARMONÍA: ACORDES
-            <span class="flex-1 h-[1px] bg-slate-800"></span>
-        </h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div onclick="openCategory('Acordes Mayores', 'mayor')" class="menu-card rounded-3xl text-white border-blue-500/30 hover:bg-blue-600/10 shadow-lg">
-                <span class="text-2xl mb-1">☀️</span>
-                Mayores
-                <span class="text-[10px] text-slate-500 font-normal">Sonido Alegre</span>
-            </div>
-            <div onclick="openCategory('Acordes Menores', 'menor')" class="menu-card rounded-3xl text-white border-red-500/30 hover:bg-red-600/10 shadow-lg">
-                <span class="text-2xl mb-1">🌙</span>
-                Menores
-                <span class="text-[10px] text-slate-500 font-normal">Sonido Triste</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-10">
-        <h2 class="text-center font-bold text-slate-500 mb-6 flex items-center justify-center gap-4">
-            <span class="flex-1 h-[1px] bg-slate-800"></span>
-            MELODÍA: ESCALAS
-            <span class="flex-1 h-[1px] bg-slate-800"></span>
-        </h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div onclick="openCategory('Escalas Mayores', 'escala_mayor')" class="menu-card rounded-3xl text-white border-green-500/30 hover:bg-green-600/10 shadow-lg">
-                <span class="text-2xl mb-1">🎭</span>
-                Mayores
-                <span class="text-[10px] text-slate-500 font-normal">Estructura Jónica</span>
-            </div>
-            <div onclick="openCategory('Escalas Menores', 'escala_menor')" class="menu-card rounded-3xl text-white border-purple-500/30 hover:bg-purple-600/10 shadow-lg">
-                <span class="text-2xl mb-1">🎻</span>
-                Menores
-                <span class="text-[10px] text-slate-500 font-normal">Estructura Eólica</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="mt-12 bg-slate-900/50 p-6 rounded-[2rem] border border-slate-800">
-        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.464 15.05a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM5.05 13.536a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414z" />
-            </svg>
-            Tips de Aprendizaje
-        </h3>
-        <ul class="space-y-3 text-sm text-slate-400">
-            <li class="flex gap-2">🔹 <p>Los acordes mayores se forman con el 1er, 3er y 5to grado de la escala.</p></li>
-            <li class="flex gap-2">🔹 <p>La escala menor natural es excelente para géneros como el Rock y Blues.</p></li>
-            <li class="flex gap-2">🔹 <p>¡Practica una escala al día para mejorar tu agilidad mental!</p></li>
-        </ul>
-    </section>
-
-    <div id="modal-list" class="fixed inset-0 modal-overlay hidden flex items-end sm:items-center justify-center z-40 p-0 sm:p-4">
-        <div class="bg-[#0f172a] border-t border-slate-800 w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] p-8 shadow-2xl max-h-[85vh] overflow-y-auto modal-anim">
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Escoge una nota</p>
-                    <h3 id="category-title" class="text-2xl font-black text-white">Categoría</h3>
-                </div>
-                <button onclick="closeModal('modal-list')" class="bg-slate-800 p-3 rounded-2xl text-slate-300 hover:bg-slate-700 transition-colors">✕</button>
-            </div>
-            <div id="notes-grid" class="grid grid-cols-3 gap-4 pb-10">
-                </div>
-        </div>
-    </div>
-
-    <div id="modal-detail" class="fixed inset-0 modal-overlay hidden flex items-center justify-center p-6 z-50">
-        <div class="bg-[#1e293b] w-full max-w-md rounded-[3rem] p-8 shadow-2xl text-center modal-anim border border-slate-700">
-            <div id="detail-badge" class="inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4">Detalle</div>
-            <h4 id="detail-title" class="text-5xl font-black text-white mb-6 tracking-tighter">Nota</h4>
-            
-            <div class="bg-[#0f172a] p-6 rounded-[2rem] mb-8 border border-slate-800">
-                <p id="detail-subtitle" class="text-slate-500 text-[10px] font-bold uppercase mb-4 tracking-widest">Estructura</p>
-                <div id="detail-content" class="flex flex-wrap justify-center gap-3">
-                    </div>
-            </div>
-
-            <button onclick="closeModal('modal-detail')" class="w-full py-4 bg-blue-600 text-white rounded-[1.5rem] font-bold text-lg shadow-lg active:scale-95 transition-transform">
-                Entendido
-            </button>
-        </div>
-    </div>
-
-    <script>
-        const musicData = {
-            notes: ['Do', 'Reb', 'Re', 'Mib', 'Mi', 'Fa', 'Fa#', 'Sol', 'Lab', 'La', 'Sib', 'Si'],
-            chords: {
-                'Do': { mayor: ['C', 'E', 'G'], menor: ['C', 'Eb', 'G'] },
-                'Reb': { mayor: ['Db', 'F', 'Ab'], menor: ['Db', 'Fb', 'Ab'] },
-                'Re': { mayor: ['D', 'F#', 'A'], menor: ['D', 'F', 'A'] },
-                'Mib': { mayor: ['Eb', 'G', 'Bb'], menor: ['Eb', 'Gb', 'Bb'] },
-                'Mi': { mayor: ['E', 'G#', 'B'], menor: ['E', 'G', 'B'] },
-                'Fa': { mayor: ['F', 'A', 'C'], menor: ['F', 'Ab', 'C'] },
-                'Fa#': { mayor: ['F#', 'A#', 'C#'], menor: ['F#', 'A', 'C#'] },
-                'Sol': { mayor: ['G', 'B', 'D'], menor: ['G', 'Bb', 'D'] },
-                'Lab': { mayor: ['Ab', 'C', 'Eb'], menor: ['Ab', 'Cb', 'Eb'] },
-                'La': { mayor: ['A', 'C#', 'E'], menor: ['A', 'C', 'E'] },
-                'Sib': { mayor: ['Bb', 'D', 'F'], menor: ['Bb', 'Db', 'F'] },
-                'Si': { mayor: ['B', 'D#', 'F#'], menor: ['B', 'D', 'F#'] }
-            },
-            scales_mayor: {
-                'Do': ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
-                'Reb': ['Reb', 'Mib', 'Fa', 'Solb', 'Lab', 'Sib', 'Do'],
-                'Re': ['Re', 'Mi', 'Fa#', 'Sol', 'La', 'Si', 'Do#'],
-                'Mib': ['Mib', 'Fa', 'Sol', 'Lab', 'Sib', 'Do', 'Re'],
-                'Mi': ['Mi', 'Fa#', 'Sol#', 'La', 'Si', 'Do#', 'Re#'],
-                'Fa': ['Fa', 'Sol', 'La', 'Sib', 'Do', 'Re', 'Mi'],
-                'Fa#': ['Fa#', 'Sol#', 'La#', 'Si', 'Do#', 'Re#', 'Fa'],
-                'Sol': ['Sol', 'La', 'Si', 'Do', 'Re', 'Mi', 'Fa#'],
-                'Lab': ['Lab', 'Sib', 'Do', 'Reb', 'Mib', 'Fa', 'Sol'],
-                'La': ['La', 'Si', 'Do#', 'Re', 'Mi', 'Fa#', 'Sol#'],
-                'Sib': ['Sib', 'Do', 'Re', 'Mib', 'Fa', 'Sol', 'La'],
-                'Si': ['Si', 'Do#', 'Re#', 'Mi', 'Fa#', 'Sol#', 'La#']
-            },
-            scales_menor: {
-                'Do': ['Do', 'Re', 'Mib', 'Fa', 'Sol', 'Lab', 'Sib'],
-                'Do#': ['Do#', 'Re#', 'Mi', 'Fa#', 'Sol#', 'La', 'Si'],
-                'Re': ['Re', 'Mi', 'Fa', 'Sol', 'La', 'Sib', 'Do'],
-                'Re#': ['Re#', 'Fa', 'Fa#', 'Sol#', 'La#', 'Si', 'Do#'],
-                'Mi': ['Mi', 'Fa#', 'Sol', 'La', 'Si', 'Do', 'Re'],
-                'Fa': ['Fa', 'Sol', 'Lab', 'Sib', 'Do', 'Reb', 'Mib'],
-                'Fa#': ['Fa#', 'Sol#', 'La', 'Si', 'Do#', 'Re', 'Mi'],
-                'Sol': ['Sol', 'La', 'Sib', 'Do', 'Re', 'Mib', 'Fa'],
-                'Sol#': ['Sol#', 'La#', 'Si', 'Do#', 'Re#', 'Mi', 'Fa#'],
-                'La': ['La', 'Si', 'Do', 'Re', 'Mi', 'Fa', 'Sol'],
-                'Sib': ['Sib', 'Do', 'Reb', 'Mib', 'Fa', 'Solb', 'Lab'],
-                'Si': ['Si', 'Do#', 'Re', 'Mi', 'Fa#', 'Sol', 'La']
-            }
-        };
-
-        function openCategory(title, type) {
-            const modal = document.getElementById('modal-list');
-            const catTitle = document.getElementById('category-title');
-            const grid = document.getElementById('notes-grid');
-            
-            catTitle.innerText = title;
-            grid.innerHTML = '';
-
-            const currentNotesList = (type === 'escala_menor') ? Object.keys(musicData.scales_menor) : musicData.notes;
-
-            currentNotesList.forEach(note => {
-                const btn = document.createElement('div');
-                btn.className = "note-item-btn h-20 rounded-2xl flex items-center justify-center font-black text-xl active:scale-95 transition-all shadow-sm cursor-pointer";
-                btn.innerText = note;
-                btn.onclick = () => showDetail(note, type);
-                grid.appendChild(btn);
-            });
-
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function showDetail(note, type) {
-            const modal = document.getElementById('modal-detail');
-            const title = document.getElementById('detail-title');
-            const content = document.getElementById('detail-content');
-            const badge = document.getElementById('detail-badge');
-            const subtitle = document.getElementById('detail-subtitle');
-            
-            let notesToShow = [];
-            let colorClass = "";
-
-            if (type === 'mayor' || type === 'menor') {
-                const isMenor = type === 'menor';
-                title.innerText = note + (isMenor ? 'm' : '');
-                badge.innerText = isMenor ? "Acorde Menor" : "Acorde Mayor";
-                badge.className = `inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 ${isMenor ? 'bg-red-900/30 text-red-400' : 'bg-blue-900/30 text-blue-400'}`;
-                subtitle.innerText = "Notas de la Tríada";
-                notesToShow = isMenor ? musicData.chords[note]?.menor : musicData.chords[note]?.mayor;
-                colorClass = isMenor ? "border-red-500 text-red-400" : "border-blue-500 text-blue-400";
-            } else if (type === 'escala_mayor') {
-                title.innerText = note;
-                badge.innerText = "Escala Mayor";
-                badge.className = "inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 bg-green-900/30 text-green-400";
-                subtitle.innerText = "Grados de la Escala";
-                notesToShow = musicData.scales_mayor[note] || [];
-                colorClass = "border-green-500 text-green-400";
-            } else if (type === 'escala_menor') {
-                title.innerText = note + "m";
-                badge.innerText = "Escala Menor Natural";
-                badge.className = "inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 bg-purple-900/30 text-purple-400";
-                subtitle.innerText = "Grados de la Escala";
-                notesToShow = musicData.scales_menor[note] || [];
-                colorClass = "border-purple-500 text-purple-400";
-            }
-
-            content.innerHTML = notesToShow ? notesToShow.map(n => `
-                <div class="note-bubble border-2 ${colorClass}">${n}</div>
-            `).join('') : '<p class="text-slate-500">Próximamente...</p>';
-
-            modal.classList.remove('hidden');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            if(id === 'modal-list') document.body.style.overflow = 'auto';
-        }
-
-        window.onclick = (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeModal(e.target.id);
-            }
-        }
-    </script>
 </body>
 </html>
