@@ -3,14 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acordes y Escalas - Dark Mode</title>
-    <!-- Script Principal de AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4140681423864004"
-     crossorigin="anonymous"></script>
-    <!-- Script de AMP Auto Ads -->
-    <script async custom-element="amp-auto-ads"
-            src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-    </script>
+    <title>Master Music - Acordes y Escalas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -23,10 +16,11 @@
             transition: all 0.2s ease;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 100px;
+            min-height: 110px;
             font-weight: 700;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background-color: #1e293b;
@@ -36,20 +30,20 @@
             background-color: #334155;
         }
         .note-bubble {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            border-radius: 50%;
             font-weight: 800;
             background: #1e293b;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: white;
         }
         .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
         }
         .modal-anim {
@@ -64,79 +58,110 @@
             border: 1px solid #334155;
             color: #f1f5f9;
         }
-        .note-item-btn:active {
-            background-color: #334155;
+        .info-box {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border-left: 4px solid #3b82f6;
         }
     </style>
 </head>
-<body class="p-4 max-w-lg mx-auto pb-10">
-    <!-- Componente de Anuncios Automáticos -->
-    <amp-auto-ads type="adsense"
-            data-ad-client="ca-pub-4140681423864004">
-    </amp-auto-ads>
+<body class="p-4 max-w-lg mx-auto pb-20">
 
-    <header class="text-center my-8">
-        <h1 class="text-4xl font-extrabold text-white tracking-tighter">Acorde y Escalas</h1>
-        <p class="text-slate-400 text-sm mt-1">Diccionario Musical Interactivo</p>
+    <header class="text-center my-10">
+        <h1 class="text-4xl font-extrabold text-white tracking-tighter">Master Music</h1>
+        <p class="text-blue-400 text-sm font-medium uppercase tracking-widest mt-2">Teoría y Diccionario Interactivo</p>
     </header>
 
-    <!-- SECCIÓN: ACORDES -->
-    <section class="mb-8">
-        <h2 class="text-center font-bold text-slate-400 mb-4 flex items-center justify-center gap-2">
-            <span class="w-8 h-[2px] bg-slate-700"></span>
-            Acordes
-            <span class="w-8 h-[2px] bg-slate-700"></span>
-        </h2>
-        <div class="grid grid-cols-2 gap-3">
-            <div onclick="openCategory('Acordes Mayores', 'mayor')" class="menu-card rounded-2xl text-white hover:border-blue-500 shadow-lg">Mayores</div>
-            <div onclick="openCategory('Acordes Menores', 'menor')" class="menu-card rounded-2xl text-white hover:border-red-500 shadow-lg">Menores</div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN: ESCALAS -->
     <section class="mb-10">
-        <h2 class="text-center font-bold text-slate-400 mb-4 flex items-center justify-center gap-2">
-            <span class="w-8 h-[2px] bg-slate-700"></span>
-            Escalas
-            <span class="w-8 h-[2px] bg-slate-700"></span>
-        </h2>
-        <div class="grid grid-cols-2 gap-3">
-            <div onclick="openCategory('Escalas Mayores', 'escala_mayor')" class="menu-card rounded-2xl text-white hover:border-green-500 shadow-lg">Mayores</div>
-            <div onclick="openCategory('Escalas Menores', 'escala_menor')" class="menu-card rounded-2xl text-white hover:border-purple-500 shadow-lg">Menores</div>
+        <div class="info-box p-5 rounded-2xl shadow-xl">
+            <h3 class="text-lg font-bold text-white mb-2">¿Cómo usar esta guía?</h3>
+            <p class="text-slate-400 text-sm leading-relaxed">
+                Selecciona una categoría para visualizar las notas que componen cada estructura. 
+                <strong class="text-slate-200">Los acordes</strong> son el acompañamiento (armonía), mientras que <strong class="text-slate-200">las escalas</strong> son la base para crear melodías y solos.
+            </p>
         </div>
     </section>
 
-    <!-- MODAL LISTADO DE NOTAS -->
+    <section class="mb-8">
+        <h2 class="text-center font-bold text-slate-500 mb-6 flex items-center justify-center gap-4">
+            <span class="flex-1 h-[1px] bg-slate-800"></span>
+            ARMONÍA: ACORDES
+            <span class="flex-1 h-[1px] bg-slate-800"></span>
+        </h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div onclick="openCategory('Acordes Mayores', 'mayor')" class="menu-card rounded-3xl text-white border-blue-500/30 hover:bg-blue-600/10 shadow-lg">
+                <span class="text-2xl mb-1">☀️</span>
+                Mayores
+                <span class="text-[10px] text-slate-500 font-normal">Sonido Alegre</span>
+            </div>
+            <div onclick="openCategory('Acordes Menores', 'menor')" class="menu-card rounded-3xl text-white border-red-500/30 hover:bg-red-600/10 shadow-lg">
+                <span class="text-2xl mb-1">🌙</span>
+                Menores
+                <span class="text-[10px] text-slate-500 font-normal">Sonido Triste</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-10">
+        <h2 class="text-center font-bold text-slate-500 mb-6 flex items-center justify-center gap-4">
+            <span class="flex-1 h-[1px] bg-slate-800"></span>
+            MELODÍA: ESCALAS
+            <span class="flex-1 h-[1px] bg-slate-800"></span>
+        </h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div onclick="openCategory('Escalas Mayores', 'escala_mayor')" class="menu-card rounded-3xl text-white border-green-500/30 hover:bg-green-600/10 shadow-lg">
+                <span class="text-2xl mb-1">🎭</span>
+                Mayores
+                <span class="text-[10px] text-slate-500 font-normal">Estructura Jónica</span>
+            </div>
+            <div onclick="openCategory('Escalas Menores', 'escala_menor')" class="menu-card rounded-3xl text-white border-purple-500/30 hover:bg-purple-600/10 shadow-lg">
+                <span class="text-2xl mb-1">🎻</span>
+                Menores
+                <span class="text-[10px] text-slate-500 font-normal">Estructura Eólica</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-12 bg-slate-900/50 p-6 rounded-[2rem] border border-slate-800">
+        <h3 class="text-white font-bold mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.464 15.05a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM5.05 13.536a1 1 0 011.414 0l.707.707a1 1 0 11-1.414 1.414l-.707-.707a1 1 0 010-1.414z" />
+            </svg>
+            Tips de Aprendizaje
+        </h3>
+        <ul class="space-y-3 text-sm text-slate-400">
+            <li class="flex gap-2">🔹 <p>Los acordes mayores se forman con el 1er, 3er y 5to grado de la escala.</p></li>
+            <li class="flex gap-2">🔹 <p>La escala menor natural es excelente para géneros como el Rock y Blues.</p></li>
+            <li class="flex gap-2">🔹 <p>¡Practica una escala al día para mejorar tu agilidad mental!</p></li>
+        </ul>
+    </section>
+
     <div id="modal-list" class="fixed inset-0 modal-overlay hidden flex items-end sm:items-center justify-center z-40 p-0 sm:p-4">
         <div class="bg-[#0f172a] border-t border-slate-800 w-full max-w-md rounded-t-[2.5rem] sm:rounded-[2.5rem] p-8 shadow-2xl max-h-[85vh] overflow-y-auto modal-anim">
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Seleccionar</p>
+                    <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Escoge una nota</p>
                     <h3 id="category-title" class="text-2xl font-black text-white">Categoría</h3>
                 </div>
                 <button onclick="closeModal('modal-list')" class="bg-slate-800 p-3 rounded-2xl text-slate-300 hover:bg-slate-700 transition-colors">✕</button>
             </div>
             <div id="notes-grid" class="grid grid-cols-3 gap-4 pb-10">
-                <!-- Generado por JavaScript -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- MODAL DETALLE -->
     <div id="modal-detail" class="fixed inset-0 modal-overlay hidden flex items-center justify-center p-6 z-50">
         <div class="bg-[#1e293b] w-full max-w-md rounded-[3rem] p-8 shadow-2xl text-center modal-anim border border-slate-700">
             <div id="detail-badge" class="inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4">Detalle</div>
-            <h4 id="detail-title" class="text-4xl font-black text-white mb-6 tracking-tighter">Nota</h4>
+            <h4 id="detail-title" class="text-5xl font-black text-white mb-6 tracking-tighter">Nota</h4>
             
-            <div class="bg-[#0f172a] p-6 rounded-[2rem] mb-6 border border-slate-800">
-                <p id="detail-subtitle" class="text-slate-500 text-[10px] font-bold uppercase mb-4 tracking-widest">Notas</p>
+            <div class="bg-[#0f172a] p-6 rounded-[2rem] mb-8 border border-slate-800">
+                <p id="detail-subtitle" class="text-slate-500 text-[10px] font-bold uppercase mb-4 tracking-widest">Estructura</p>
                 <div id="detail-content" class="flex flex-wrap justify-center gap-3">
-                    <!-- Burbujas de notas generadas dinámicamente -->
-                </div>
+                    </div>
             </div>
 
-            <button onclick="closeModal('modal-detail')" class="w-full py-4 bg-white text-slate-900 rounded-[1.2rem] font-bold text-lg shadow-lg active:scale-95 transition-transform">
-                Cerrar
+            <button onclick="closeModal('modal-detail')" class="w-full py-4 bg-blue-600 text-white rounded-[1.5rem] font-bold text-lg shadow-lg active:scale-95 transition-transform">
+                Entendido
             </button>
         </div>
     </div>
@@ -144,7 +169,6 @@
     <script>
         const musicData = {
             notes: ['Do', 'Reb', 'Re', 'Mib', 'Mi', 'Fa', 'Fa#', 'Sol', 'Lab', 'La', 'Sib', 'Si'],
-            
             chords: {
                 'Do': { mayor: ['C', 'E', 'G'], menor: ['C', 'Eb', 'G'] },
                 'Reb': { mayor: ['Db', 'F', 'Ab'], menor: ['Db', 'Fb', 'Ab'] },
@@ -159,7 +183,6 @@
                 'Sib': { mayor: ['Bb', 'D', 'F'], menor: ['Bb', 'Db', 'F'] },
                 'Si': { mayor: ['B', 'D#', 'F#'], menor: ['B', 'D', 'F#'] }
             },
-            
             scales_mayor: {
                 'Do': ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
                 'Reb': ['Reb', 'Mib', 'Fa', 'Solb', 'Lab', 'Sib', 'Do'],
@@ -174,11 +197,7 @@
                 'Sib': ['Sib', 'Do', 'Re', 'Mib', 'Fa', 'Sol', 'La'],
                 'Si': ['Si', 'Do#', 'Re#', 'Mi', 'Fa#', 'Sol#', 'La#']
             },
-
             scales_menor: {
-                'La': ['La', 'Si', 'Do', 'Re', 'Mi', 'Fa', 'Sol'],
-                'Sib': ['Sib', 'Do', 'Reb', 'Mib', 'Fa', 'Solb', 'Lab'],
-                'Si': ['Si', 'Do#', 'Re', 'Mi', 'Fa#', 'Sol', 'La'],
                 'Do': ['Do', 'Re', 'Mib', 'Fa', 'Sol', 'Lab', 'Sib'],
                 'Do#': ['Do#', 'Re#', 'Mi', 'Fa#', 'Sol#', 'La', 'Si'],
                 'Re': ['Re', 'Mi', 'Fa', 'Sol', 'La', 'Sib', 'Do'],
@@ -187,7 +206,10 @@
                 'Fa': ['Fa', 'Sol', 'Lab', 'Sib', 'Do', 'Reb', 'Mib'],
                 'Fa#': ['Fa#', 'Sol#', 'La', 'Si', 'Do#', 'Re', 'Mi'],
                 'Sol': ['Sol', 'La', 'Sib', 'Do', 'Re', 'Mib', 'Fa'],
-                'Sol#': ['Sol#', 'La#', 'Si', 'Do#', 'Re#', 'Mi', 'Fa#']
+                'Sol#': ['Sol#', 'La#', 'Si', 'Do#', 'Re#', 'Mi', 'Fa#'],
+                'La': ['La', 'Si', 'Do', 'Re', 'Mi', 'Fa', 'Sol'],
+                'Sib': ['Sib', 'Do', 'Reb', 'Mib', 'Fa', 'Solb', 'Lab'],
+                'Si': ['Si', 'Do#', 'Re', 'Mi', 'Fa#', 'Sol', 'La']
             }
         };
 
@@ -199,11 +221,11 @@
             catTitle.innerText = title;
             grid.innerHTML = '';
 
-            const currentNotesList = type === 'escala_menor' ? Object.keys(musicData.scales_menor) : musicData.notes;
+            const currentNotesList = (type === 'escala_menor') ? Object.keys(musicData.scales_menor) : musicData.notes;
 
             currentNotesList.forEach(note => {
                 const btn = document.createElement('div');
-                btn.className = "note-item-btn h-20 rounded-2xl flex items-center justify-center font-black text-xl active:scale-95 transition-all shadow-sm";
+                btn.className = "note-item-btn h-20 rounded-2xl flex items-center justify-center font-black text-xl active:scale-95 transition-all shadow-sm cursor-pointer";
                 btn.innerText = note;
                 btn.onclick = () => showDetail(note, type);
                 grid.appendChild(btn);
@@ -228,28 +250,28 @@
                 title.innerText = note + (isMenor ? 'm' : '');
                 badge.innerText = isMenor ? "Acorde Menor" : "Acorde Mayor";
                 badge.className = `inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 ${isMenor ? 'bg-red-900/30 text-red-400' : 'bg-blue-900/30 text-blue-400'}`;
-                subtitle.innerText = "Notas del acorde";
+                subtitle.innerText = "Notas de la Tríada";
                 notesToShow = isMenor ? musicData.chords[note]?.menor : musicData.chords[note]?.mayor;
                 colorClass = isMenor ? "border-red-500 text-red-400" : "border-blue-500 text-blue-400";
             } else if (type === 'escala_mayor') {
                 title.innerText = note;
                 badge.innerText = "Escala Mayor";
                 badge.className = "inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 bg-green-900/30 text-green-400";
-                subtitle.innerText = "Notas de la escala";
+                subtitle.innerText = "Grados de la Escala";
                 notesToShow = musicData.scales_mayor[note] || [];
                 colorClass = "border-green-500 text-green-400";
             } else if (type === 'escala_menor') {
                 title.innerText = note + "m";
-                badge.innerText = "Escala Menor";
+                badge.innerText = "Escala Menor Natural";
                 badge.className = "inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter mb-4 bg-purple-900/30 text-purple-400";
-                subtitle.innerText = "Notas de la escala";
+                subtitle.innerText = "Grados de la Escala";
                 notesToShow = musicData.scales_menor[note] || [];
                 colorClass = "border-purple-500 text-purple-400";
             }
 
             content.innerHTML = notesToShow ? notesToShow.map(n => `
-                <div class="note-bubble border ${colorClass}">${n}</div>
-            `).join('') : '<p class="text-slate-500">Datos no disponibles</p>';
+                <div class="note-bubble border-2 ${colorClass}">${n}</div>
+            `).join('') : '<p class="text-slate-500">Próximamente...</p>';
 
             modal.classList.remove('hidden');
         }
